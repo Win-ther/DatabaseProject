@@ -27,9 +27,24 @@ public class Main {
                 case 4 -> deleteQueries();
                 case 5 -> printChoices();
                 case 6 -> statsQueries();
+                case 7 -> evaluateCourse();
             }
         } while (true);
 
+    }
+
+    private static void evaluateCourse() {
+        System.out.println("""
+                Evaluation
+                1. View evaluations for a course
+                2. Insert new evaluation
+                """);
+        int choice = getChoice();
+        switch (choice) {
+            default -> System.out.println("Incorrect choice, returning to menu");
+            case 1 -> EvaluationQueries.viewEvaluations();
+            case 2 -> EvaluationQueries.insertEvaluation();
+        }
     }
 
     public static int getChoice() {
@@ -165,7 +180,8 @@ public class Main {
                 3 - Update
                 4 - Delete
                 5 - Print choices
-                6 - Statistics""");
+                6 - Statistics
+                7 - Evaluations""");
     }
 
     public static void inTransaction(Consumer<EntityManager> work) {

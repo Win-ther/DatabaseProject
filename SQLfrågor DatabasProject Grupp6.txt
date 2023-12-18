@@ -6,99 +6,126 @@ CREATE TABLE School
     schoolName VARCHAR(50),
     PRIMARY KEY (schoolId)
 );
-CREATE TABLE LanguageCourse(
-    courseId INT NOT NULL AUTO_INCREMENT,
-    courseName VARCHAR(50),
+CREATE TABLE LanguageCourse
+(
+    courseId        INT NOT NULL AUTO_INCREMENT,
+    courseName      VARCHAR(50),
     courseStartDate VARCHAR(50),
-    courseEndDate VARCHAR(50),
-    courseSchoolId INT,
+    courseEndDate   VARCHAR(50),
+    courseSchoolId  INT,
     PRIMARY KEY (courseId),
-    FOREIGN KEY (courseSchoolId) REFERENCES School(schoolId)
+    FOREIGN KEY (courseSchoolId) REFERENCES School (schoolId)
 );
 CREATE TABLE Teacher
 (
-    teacherId   INT NOT NULL AUTO_INCREMENT,
-    teacherName VARCHAR(50),
-    teacherEmail VARCHAR(50),
+    teacherId       INT NOT NULL AUTO_INCREMENT,
+    teacherName     VARCHAR(50),
+    teacherEmail    VARCHAR(50),
     teacherCourseId INT,
     PRIMARY KEY (teacherId),
-    FOREIGN KEY (teacherCourseId) REFERENCES LanguageCourse(courseId)
+    FOREIGN KEY (teacherCourseId) REFERENCES LanguageCourse (courseId)
 );
 CREATE TABLE Student
 (
-    studentId      INT NOT NULL AUTO_INCREMENT,
-    studentName    VARCHAR(50),
-    studentEmail VARCHAR(50),
+    studentId       INT NOT NULL AUTO_INCREMENT,
+    studentName     VARCHAR(50),
+    studentEmail    VARCHAR(50),
     studentCourseId INT,
     PRIMARY KEY (studentId),
     FOREIGN KEY (studentCourseId) REFERENCES LanguageCourse (courseId)
 );
-CREATE TABLE courseLeader (
-    courseLeaderId INT NOT NULL AUTO_INCREMENT,
-    courseLeaderName VARCHAR(50),
-    courseLeaderEmail VARCHAR(50),
+CREATE TABLE courseLeader
+(
+    courseLeaderId       INT NOT NULL AUTO_INCREMENT,
+    courseLeaderName     VARCHAR(50),
+    courseLeaderEmail    VARCHAR(50),
     courseLeaderCourseId INT,
     PRIMARY KEY (courseLeaderId),
-    FOREIGN KEY (courseLeaderCourseId) REFERENCES LanguageCourse(courseId)
+    FOREIGN KEY (courseLeaderCourseId) REFERENCES LanguageCourse (courseId)
 );
-CREATE TABLE Examination (
-    examinationId INT NOT NULL AUTO_INCREMENT,
-    examinationName VARCHAR(50),
+CREATE TABLE Examination
+(
+    examinationId       INT NOT NULL AUTO_INCREMENT,
+    examinationName     VARCHAR(50),
     examinationMinScore INT,
     examinationMaxScore INT,
     examinationCourseId INT,
     PRIMARY KEY (examinationId),
-    FOREIGN KEY (examinationCourseId) REFERENCES LanguageCourse(courseId),
+    FOREIGN KEY (examinationCourseId) REFERENCES LanguageCourse (courseId),
     CHECK ( examinationMaxScore > examinationMinScore )
 );
+CREATE TABLE CourseEvaluation
+(
+    evaluationId       INT NOT NULL AUTO_INCREMENT,
+    evaluationScore    INT,
+    evaluationText     VARCHAR(500),
+    evaluationCourseId INT,
+    PRIMARY KEY (evaluationId),
+    FOREIGN KEY (evaluationCourseId) REFERENCES LanguageCourse (courseId),
+    CHECK ( evaluationScore >= 0 AND evaluationScore <= 10)
+);
 -- Skapa unika index
-CREATE UNIQUE INDEX index_school_name ON School(schoolName);
-CREATE UNIQUE INDEX index_student_email ON Student(studentEmail);
-CREATE UNIQUE INDEX index_teacher_email ON Teacher(teacherEmail);
-CREATE UNIQUE INDEX index_courseleader_email ON courseLeader(courseLeaderEmail);
-CREATE UNIQUE INDEX index_examination_name ON Examination(examinationName);
+CREATE UNIQUE INDEX index_school_name ON School (schoolName);
+CREATE UNIQUE INDEX index_student_email ON Student (studentEmail);
+CREATE UNIQUE INDEX index_teacher_email ON Teacher (teacherEmail);
+CREATE UNIQUE INDEX index_courseleader_email ON courseLeader (courseLeaderEmail);
+CREATE UNIQUE INDEX index_examination_name ON Examination (examinationName);
 
 -- Insert data
-INSERT INTO School (schoolName) VALUES ('ITHS'),('Montessori'),('Chalmers');
+INSERT INTO School (schoolName)
+VALUES ('ITHS'),
+       ('Montessori'),
+       ('Chalmers');
 INSERT INTO LanguageCourse (courseName, courseStartDate, courseEndDate, courseSchoolId)
-VALUES ('English','2024-01-01','2025-01-01',1),
-       ('Italian','2023-12-26','2024-06-25',2),
-       ('Spanish','2024-03-25','2024-08-08',3);
+VALUES ('English', '2024-01-01', '2025-01-01', 1),
+       ('Italian', '2023-12-26', '2024-06-25', 2),
+       ('Spanish', '2024-03-25', '2024-08-08', 3);
 INSERT INTO Teacher (teacherName, teacherEmail, teacherCourseId)
-VALUES ('Roger Pontare', 'pontare@gmail.com',1),
-       ('Marco Pirelli','marcopirelli@gmail.com',2),
-       ('José Gonzales', 'josespanish@hotmail.com',3);
+VALUES ('Roger Pontare', 'pontare@gmail.com', 1),
+       ('Marco Pirelli', 'marcopirelli@gmail.com', 2),
+       ('José Gonzales', 'josespanish@hotmail.com', 3);
 INSERT INTO Student (studentName, studentEmail, studentCourseId)
-VALUES ('Jonas Jonasson','jonasjonas@gmail.com',1),
-       ('Andrea Stensson','sten@gmail.com',2),
-       ('Jeff Dunham','jeffdunham@comhem.se',3),
-       ('Sten Andersson','stenandersson@gmail.com',1);
+VALUES ('Jonas Jonasson', 'jonasjonas@gmail.com', 1),
+       ('Andrea Stensson', 'sten@gmail.com', 2),
+       ('Jeff Dunham', 'jeffdunham@comhem.se', 3),
+       ('Sten Andersson', 'stenandersson@gmail.com', 1);
 INSERT INTO courseLeader (courseLeaderName, courseLeaderEmail, courseLeaderCourseId)
-VALUES ('Daniella Persson','daniellapersson@iths.se',1),
-       ('Cornelia Karlsson','cornelia@montessori.com',2),
-       ('Jane Smith','janesmith@chalmers.se',3);
+VALUES ('Daniella Persson', 'daniellapersson@iths.se', 1),
+       ('Cornelia Karlsson', 'cornelia@montessori.com', 2),
+       ('Jane Smith', 'janesmith@chalmers.se', 3);
 INSERT INTO Examination (examinationName, examinationMinScore, examinationMaxScore, examinationCourseId)
-VALUES ('Tentamen Engelska 2024Höst', 50, 100,1),
-       ('Tentamen Italienska 2024Vår', 30,60,2),
-       ('Tentamen Spanska 2024Sommar', 75, 120,3);
+VALUES ('Tentamen Engelska 2024Höst', 50, 100, 1),
+       ('Tentamen Italienska 2024Vår', 30, 60, 2),
+       ('Tentamen Spanska 2024Sommar', 75, 120, 3);
 
 -- Select frågor
-SELECT * FROM LanguageCourse;
-SELECT * FROM Student;
-SELECT * FROM courseLeader;
-SELECT * FROM Teacher;
-SELECT * FROM School;
-SELECT * FROM Examination;
+SELECT *
+FROM LanguageCourse;
+SELECT *
+FROM Student;
+SELECT *
+FROM courseLeader;
+SELECT *
+FROM Teacher;
+SELECT *
+FROM School;
+SELECT *
+FROM Examination;
 -- Lägga till
-INSERT INTO Student (studentName, studentEmail, studentCourseId) VALUES ('John Doe', 'johndoe@gmail.com',1);
+INSERT INTO Student (studentName, studentEmail, studentCourseId)
+VALUES ('John Doe', 'johndoe@gmail.com', 1);
 -- Uppdatera
 UPDATE School
-SET schoolName = 'ITHS Göteborg' WHERE schoolName = 'ITHS';
+SET schoolName = 'ITHS Göteborg'
+WHERE schoolName = 'ITHS';
 -- Ta bort
-DELETE FROM Student WHERE studentName = 'John Doe';
+DELETE
+FROM Student
+WHERE studentName = 'John Doe';
 -- Statistik
-SELECT COUNT(Student.studentId) FROM Student
-INNER JOIN LanguageCourse ON Student.studentCourseId = LanguageCourse.courseId
+SELECT COUNT(Student.studentId)
+FROM Student
+         INNER JOIN LanguageCourse ON Student.studentCourseId = LanguageCourse.courseId
 WHERE courseName = 'English';
 -- Delete tabeller
-drop table School, LanguageCourse,courseLeader,Student,Teacher, Examination;
+drop table School, LanguageCourse,courseLeader,Student,Teacher, Examination, CourseEvaluation;

@@ -208,7 +208,7 @@ public class LanguageCourseQueries {
         });
     }
 
-    private static LanguageCourse getCourseByName(EntityManager entityManager, String name) {
+    public static LanguageCourse getCourseByName(EntityManager entityManager, String name) {
         String queryString = """
                 select c from LanguageCourse c where c.courseName like :name
                 """;
