@@ -3,6 +3,7 @@ package org.example;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.example.entities.LanguageCourse;
+import org.example.entities.Student;
 import org.example.entities.Teacher;
 
 import java.util.List;
@@ -16,14 +17,14 @@ public class TeacherQueries {
     public static void selectTeacherQueries() {
         System.out.println("""
                 1. Show all teachers and their contact information
-                2. Show teacher and their courses
-                3. Show students in teacher class // not done
+                2. Show teacher and associated courses
+                3. Show students in teacher's course 
                 """);
         int choice = getChoice();
         switch (choice) {
             case 1 -> showAllTeacherWithContactInfo();
             case 2 -> showTeachersAndCourses();
-            case 3 -> System.out.println("Teacher3 method is not complete");
+            case 3 -> showStudentsInTeacherCourse();
         }
     }
 
@@ -57,7 +58,46 @@ public class TeacherQueries {
             }
         });
     }
+    public static void showStudentsInTeacherCourse() {
+        Scanner scanner = new Scanner(System.in);
 
+        System.out.print("Enter the teacher's name: ");
+        String teacherName = scanner.nextLine();
+
+        try {
+            inTransaction(entityManager -> {
+                TypedQuery<LanguageCourse> courseQuery = entityManager.createQuery(
+                        "SELECT t.teacherCourse FROM Teacher t WHERE t.teacherName = :teacherName", LanguageCourse.class);
+                courseQuery.setParameter("teacherName", teacherName);
+                LanguageCourse course = courseQuery.getSingleResult();
+
+                if (course == null) {
+                    System.out.println("The teacher " + teacherName + " is not associated with any course.");
+                    return;
+                }
+
+                TypedQuery<Student> studentQuery = entityManager.createQuery(
+                        "SELECT s FROM Student s WHERE s.studentCourse = :course", Student.class);
+                studentQuery.setParameter("course", course);
+                List<Student> students = studentQuery.getResultList();
+
+                if(students.isEmpty()) {
+                    System.out.println("There are no students in the course taught by " + teacherName);
+                } else {
+                    System.out.println("Course: " + course.getCourseName() +
+                            " taught by " + teacherName +
+                            " has the following students: ");
+                    for (Student student : students) {
+                        System.out.println("Student name: " + student.getStudentName());
+                    }
+                }
+            });
+        } catch (NoResultException e) {
+            System.out.println("No matching course found for the teacher's name.");
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
     public static void insertTeacherQueries() {
         System.out.println("Enter teacher name:");
         String name = scanner.nextLine();
