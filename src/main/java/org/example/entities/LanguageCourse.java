@@ -29,9 +29,6 @@ public class LanguageCourse {
     @JoinColumn(name = "courseSchoolId")
     private School courseSchool;
 
-    @OneToMany(mappedBy = "examinationCourse")
-    private Set<Examination> examinations = new LinkedHashSet<>();
-
     @OneToMany(mappedBy = "studentCourse")
     private Set<Student> students = new LinkedHashSet<>();
 
@@ -79,14 +76,6 @@ public class LanguageCourse {
 
     public void setCourseSchool(School courseSchool) {
         this.courseSchool = courseSchool;
-    }
-
-    public Set<Examination> getExaminations() {
-        return examinations;
-    }
-
-    public void setExaminations(Set<Examination> examinations) {
-        this.examinations = examinations;
     }
 
     public Set<Student> getStudents() {
@@ -151,11 +140,5 @@ public class LanguageCourse {
     }
     public void removeStudent(Student student) {
         this.students.remove(student);
-    }
-    public void addExamination(Examination examination) {
-        this.examinations.add(examination);
-    }
-    public void removeExamination(Examination examination) {
-        this.examinations.remove(examination);
     }
 }

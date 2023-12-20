@@ -19,25 +19,12 @@ public class LanguageCourseQueries {
         System.out.println("""
                 1. Show number of saved courses
                 2. Show number of students in a course
-                3. Show number of exams in a course
                 """);
         int choice = getChoice();
         switch (choice){
             case 1 -> nrOfSavedCourses();
             case 2 -> nrOfStudentsInACourse();
-            case 3 -> nrOfExamsInACourse();
         }
-    }
-
-    private static void nrOfExamsInACourse() {
-        System.out.println("Enter ID of course");
-        int id = getId();
-        if (id == -1)
-            return;
-        inTransaction(entityManager -> {
-            LanguageCourse course = entityManager.find(LanguageCourse.class,id);
-            System.out.println("There are "+course.getExaminations().size()+" examinations in the "+course.getCourseName()+" course");
-        });
     }
 
     private static void nrOfStudentsInACourse() {
@@ -74,12 +61,11 @@ public class LanguageCourseQueries {
                 System.out.println("Incorrect course ID, returning to menu");
                 return;
             }
-            if (!course.getCourseLeaders().isEmpty() || !course.getTeachers().isEmpty() ||!course.getStudents().isEmpty() ||!course.getExaminations().isEmpty()) {
+            if (!course.getCourseLeaders().isEmpty() || !course.getTeachers().isEmpty() ||!course.getStudents().isEmpty()) {
                 System.out.println("There is still something connected to this course, delete or remove the connection before removing the course");
                 System.out.println("Course leaders: "+course.getCourseLeaders().size());
                 System.out.println("Teachers: "+course.getTeachers().size());
                 System.out.println("Students: "+course.getStudents().size());
-                System.out.println("Examinations: "+course.getExaminations().size());
                 return;
             }
             entityManager.remove(course);
@@ -164,7 +150,6 @@ public class LanguageCourseQueries {
                 2. Show all courses, course leaders and teachers.
                 3. Search for a course
                 4. See registered students in a course
-                5. See examinations in a course
                 """);
         int choice = getChoice();
         switch (choice){
@@ -172,20 +157,9 @@ public class LanguageCourseQueries {
             case 2 -> showAllCoursesWithLeaderAndTeacher();
             case 3 -> searchForCourse();
             case 4 -> findStudentsInACourse();
-            case 5 -> findExamsInACourse();
         }
     }
 
-    private static void findExamsInACourse() {
-        System.out.print("Enter course name: ");
-        String name = scanner.nextLine();
-
-        inTransaction(entityManager -> {
-            LanguageCourse course = getCourseByName(entityManager, name);
-            if (course == null) return;
-            course.getExaminations().forEach(System.out::println);
-        });
-    }
 
     private static void findStudentsInACourse() {
         System.out.print("Enter course name: ");

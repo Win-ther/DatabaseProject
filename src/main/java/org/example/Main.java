@@ -66,7 +66,6 @@ public class Main {
                 3.Teachers
                 4.Schools
                 5.Course leader
-                6.TBD
                 \nAwaiting input
                 """);
         int choice = getChoice();
@@ -77,7 +76,6 @@ public class Main {
             case 3 -> TeacherQueries.statsTeacherQueries();
             case 4 -> SchoolQueries.schoolStatsQueries();
             case 5 -> CourseLeaderQueries.statsLeaderQueries();
-            case 6 -> /*Todo: MenuOption6 for select*/{}
         }
     }
 
@@ -89,7 +87,6 @@ public class Main {
                 3.Teachers
                 4.Schools
                 5.Course leader
-                6.TBD
                 \nAwaiting input
                 """);
         int choice = getChoice();
@@ -100,7 +97,6 @@ public class Main {
             case 3 -> TeacherQueries.selectTeacherQueries();
             case 4 -> SchoolQueries.selectSchoolQueries();
             case 5 -> CourseLeaderQueries.selectLeaderQueries();
-            case 6 -> /*Todo: MenuOption6 for select*/{}
         }
     }
     private static void insertQueries() {
@@ -111,7 +107,6 @@ public class Main {
                 3.Teachers
                 4.Schools
                 5.Course leader
-                6.TBD
                 \nAwaiting input
                 """);
         int choice = getChoice();
@@ -122,7 +117,6 @@ public class Main {
             case 3 -> TeacherQueries.insertTeacherQueries();
             case 4 -> SchoolQueries.insertSchoolQueries();
             case 5 -> CourseLeaderQueries.insertLeaderQueries();
-            case 6 -> /*Todo: MenuOption6 for insert*/{}
         }
     }
 
@@ -134,7 +128,6 @@ public class Main {
                 3.Teachers
                 4.Schools
                 5.Course leader
-                6.TBD
                 \nAwaiting input
                 """);
         int choice = getChoice();
@@ -145,7 +138,6 @@ public class Main {
             case 3 -> TeacherQueries.updateTeacherQueries();
             case 4 -> SchoolQueries.updateSchoolQueries();
             case 5 -> CourseLeaderQueries.updateLeaderQueries();
-            case 6 -> /*Todo: MenuOption6 for update*/{}
         }
     }
 
@@ -157,7 +149,6 @@ public class Main {
                 3.Teachers
                 4.Schools
                 5.Course leader
-                6.TBD
                 \nAwaiting input
                 """);
         int choice = getChoice();
@@ -168,7 +159,6 @@ public class Main {
             case 3 -> TeacherQueries.deleteTeacherQueries();
             case 4 -> SchoolQueries.deleteSchoolQueries();
             case 5 -> CourseLeaderQueries.deleteLeaderQueries();
-            case 6 -> /*Todo: MenuOption6 for delete*/{}
         }
     }
 
